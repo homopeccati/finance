@@ -1,7 +1,5 @@
 import pandas as pd
-import json
 import requests
-from urllib import parse
 import requests
 from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
