@@ -1,4 +1,6 @@
 # Set project root dynamically
+from pathlib import Path
+import sys
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.append(str(PROJECT_ROOT))
 
@@ -136,7 +138,7 @@ if __name__ == "__main__":
         base_currency = str('RUB')
         quote_currency = str('CNY')
         floating_rate = float(0.16)
-        file_path = 'swap_curves.csv'
+        file_path = 'swaps/swap_curves.csv'
 
         swap_curves = read_swap_curves(file_path)
 

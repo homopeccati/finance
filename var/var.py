@@ -1,7 +1,6 @@
+# Set project root dynamically
 from pathlib import Path
 import sys
-
-# Set project root dynamically
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.append(str(PROJECT_ROOT))
 
