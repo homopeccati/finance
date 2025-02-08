@@ -1,4 +1,3 @@
-
 class Curve:
     """Curve class for calculating the discount rates based on the given curve data.
     """    

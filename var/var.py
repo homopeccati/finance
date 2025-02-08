@@ -1,11 +1,20 @@
+from pathlib import Path
+import sys
+
+# Set project root dynamically
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.append(str(PROJECT_ROOT))
+
 import numpy as np
 import pandas as pd
 import scipy.stats as stats
 import data_parser as data_parser
 from scipy.optimize import brentq
 from datetime import datetime, timedelta
+from utils.curve import Curve
+
 from config import simulation_config
-from utils.curve import Curve # Import MC parameters from config.py
+
 
 class Option:
     """Option class for pricing and risk analysis of European options.
@@ -241,7 +250,7 @@ def define_portfolio(options_data: pd.DataFrame, underlier_params: pd.DataFrame,
         
         r= rf.get_discount_rate(T)
         
-        sigma = float(underlier_params[underlier_params['underlier'] == underlier]['sigma'])
+        sigma = float(underlier_params[underlier_params['underlier'] == underlier]['sigma'].iloc[0])
         
         if 'Call' in row ['SECNAME']:
             option_type='call'
@@ -264,8 +273,8 @@ if __name__ == "__main__":
     #Estimation date
     date = str(input('Input the date in the YYYY-MM-DD format: '))
     
-    print('Fetching the data from external soruces...')
-    options_data = get_options_data(r"C:\Users\Lenovo\OneDrive\Misc\Python\bcs\tickers.csv", date)
+    print('Fetching the data from external soruces...\n')
+    options_data = get_options_data("var/tickers.csv", date)
     params = get_underlier_parameters(options_data, date)
     portfolio = define_portfolio(options_data, params, date)
     print('\nOptions and underliers data sucessfully fetched!')

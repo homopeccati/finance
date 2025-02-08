@@ -3,6 +3,7 @@ import requests
 import requests
 from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
+from io import StringIO
 
 # Function to fetch stock price data in chunks for multiple tickers
 def fetch_underlier_data(tickers: list, start_date: str, end_date: str, chunk_size=100) -> pd.DataFrame:
@@ -85,7 +86,8 @@ def fetch_option_data(tickers: list, date: str) -> pd.DataFrame:
         response = requests.get(url, params=params)
         data = response.json()
         data = pd.DataFrame(data['securities']['data'], columns=data['securities']['columns'])
-        final_data = pd.concat([final_data, data])
+        final_data = pd.concat([final_data if not final_data.empty else None,
+                                data if not data.empty else None])
     
     return final_data
 
@@ -115,7 +117,7 @@ def fetch_risk_free_rate() -> dict:
         raise Exception("Could not find the yield curve table")
     
     # Extract table data into a DataFrame
-    df = pd.read_html(str(table))[0]
+    df = pd.read_html(StringIO(str(table)))[0]
     
     # Rename columns for clarity (based on the structure of the table)
     df.columns = ["Date", 0.25, 0.5, 0.75, 1, 2, 3, 5, 7, 10, 15, 20, 30]
