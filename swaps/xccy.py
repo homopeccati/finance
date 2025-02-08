@@ -1,6 +1,10 @@
+# Set project root dynamically
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.append(str(PROJECT_ROOT))
+
 import pandas as pd
 import numpy as np
-from bond import Curve #Imported from bond.py
+from utils.curve import Curve #Imported from bond.py
 
 class CrossCurrencySwap:
     """CrossCurrencySwap class for calculating fixed rate for a cross currency swap.
